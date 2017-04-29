@@ -1,0 +1,34 @@
+<form class="stForm" ng-controller="studentFormCntrl">
+	<div class="form-group">
+      	<button type="submit" class="btn btn-default" ng-click='postData()'>Save</button>
+ 	</div>
+	<h3>Add Student:</h3>
+	<div class="form-group">
+		<label for="stName">Name:</label>
+		<input type="text" class="form-control" id="stName" placeholder="Name" ng-model="stName">
+	</div>
+	<div class="form-group">
+		<label for="stPhone">Phone:</label>
+		<input type="text" class="form-control" id="stPhone" placeholder="Phone" ng-model="stPhone">
+	</div>
+	<div class="form-group">
+		<label for="stEmail">Email:</label>
+		<input type="email" class="form-control" id="stEmail" placeholder="Email" ng-model="stEmail">
+	</div>
+	<div class="form-group">
+		<label for="stImage">File input</label>
+	   	<input type="file" id="stImage" name="image" ng-model="stImage">
+	</div>
+	<div class="checkbox">
+		<h5>Courses:</h5>
+	   	<label>
+	     		<input type="checkbox"> Course A
+	   	</label>
+	</div>
+	<div class="checkbox">
+	   	<label>
+	     		<input type="checkbox"> Course B
+	   	</label>
+	</div>
+	
+</form>

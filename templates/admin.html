@@ -1,0 +1,35 @@
+<div class="col-md-4 aside">
+	<div class="col-md-12" ng-controller='adminController'>
+		<div class="row">
+			<p class="col-md-10">Admins</p>
+			<a class="btn btn-default col-md-2" ui-sref="admin.insert-ad"><span class="glyphicon glyphicon-plus"></span></a>
+		</div>	
+		<ul class="list-unstyled" ng-repeat="admin in adminData">
+			<li>
+			  	<a ui-sref="admin.read-ad({id:admin.id, name:admin.name, email:admin.email, phone:admin.phone, role:admin.role, image:admin.img})">
+					<div class="row">
+					  	<div class="col-md-12">
+					    	<div class="thumbnail">
+					      		<img src="img/banana.jpg" alt="...">
+					      		<div class="caption" class="col-md-8">
+						  			<ul class="list-unstyled">
+						  				<li>{{admin.name}}</li>
+						  				<li>{{admin.email}}</li>
+						  				<li>{{admin.phone}}</li>
+						  				<li>{{admin.role}}</li>
+						  				<li>{{admin.password}}</li>
+						  			</ul>
+						  		</div>
+					    	</div>
+					  	</div>
+					</div>
+			  	</a>
+			</li>
+		</ul>
+	</div>	
+</div>
+<div class="col-md-8" ui-view>
+	
+</div>
+
+		  		

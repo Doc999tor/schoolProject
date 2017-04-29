@@ -1,0 +1,6 @@
+
+.scroll {
+	box-sizing: border-box;
+	overflow-y: auto;
+	color: red;
+}
