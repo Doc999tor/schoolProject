@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="./css/bootstrap-3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="./css/bootstrap-3.3.7/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="./css/style.css">
-	
+
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script> -->
 	<script src="./js/angular.min.js"></script>
 	<script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
@@ -17,7 +17,7 @@
 </head>
 <body ng-app="schoolApp">
 	<div class="container-fluid">
-		<header ng-controller="loginController">
+		<header ng-controller="HeaderController">
 			<span> {{test}} </span>
 			<span> {{ 1 + 3 }} </span>
 			<nav class="navbar navbar-default col-md-12">
@@ -33,22 +33,22 @@
 						  		<img src="img/banana.jpg" alt="...">
 						  		<div class="caption">
 						  			<ul class="list-unstyled">
-						  				<li>name:{{SessionManager.login.sessionData.username}}</li>
-						  				<li>role:{{SessionManager.login.sessionData.role_id}}</li>
-						  				<li><a ui-sref="login" ng-click="logout()">log-out</a></li>	
+						  				<li>name:{{sessionData.username}}</li>
+						  				<li>role:{{sessionData.role_id}}</li>
+						  				<li><a ui-sref="login" ng-click="logout()">log-out</a></li>
 						  			</ul>
 						  		</div>
-							</div>							 
+							</div>
     					</div>
   					</div>
   				</div>
 			</nav>
 		</header>
 		<main ui-view>
-			
+
 		</main>
 		<footer>
-			
+
 		</footer>
 	</div>
 </body>

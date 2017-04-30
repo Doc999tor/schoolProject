@@ -19,7 +19,20 @@ var schoolApp = angular.module("schoolApp", ['ui.router']);
 //     }
 // }]);
 
-schoolApp.service('SessionManager', function($http) {
+schoolApp.factory('SessionData', function(){
+	var data = {
+		username: 'username',
+		image: 'image',
+		role_id: '12',
+	};
+	return {
+		get: () => data,
+		put: newData => {data = newData;console.log(data);},
+		patch: (fieldName, fieldValue) => {data[fieldName] = fieldValue},
+	}
+})
+
+schoolApp.service('SessionManager', function($http, SessionData) {
 
     console.log("SessionManager service");
 
@@ -29,37 +42,38 @@ schoolApp.service('SessionManager', function($http) {
 			username: $username,
 			password: $password
 		};
+		var config = {
+			headers: {'Content-Type': 'application/json; charset=utf-8'}
+		};
 		// Don't forget to return the promise from login function
-		return $http.post('./php/server.php', requestData, {
-			headers: {
-       	    	'Content-Type': 'application/json; charset=utf-8'
-       		}
-		}).then(function(response) {
+		return $http
+			.post('./php/server.php', requestData, config)
+			.then(function(response) {
 
-			// If one or more credentials is missed or wrong, you can return 400 Bad Request response from the server.
-			// Here you can check if the response code is 200 Ok. If it is to continue, if it isn't show a warning
+				// If one or more credentials is missed or wrong, you can return 400 Bad Request response from the server.
+				// Here you can check if the response code is 200 Ok. If it is to continue, if it isn't show a warning
 
-			console.log('Admin login data received');
-			console.log(response);
+				console.log('Admin login data received');
+				console.log(response);
 
-			if (response.status === 200) {
-				return {
-					username: response.data[0],
-					image: response.data[1],
-					role_id: response.data[2]
+				if (response.status === 200) {
+					SessionData.put({
+						username: response.data[0],
+						role_id: response.data[1],
+					});
+					return response.data;
+					// $state.go('school.summary-sc');
+					// Redirecting logic should be placed in controller or specific service. Login service should to make a login attempt only.
+				} else {
+					console.log(response.data);
+					window.alert(response.data);
+					// $state.go('login');
 				}
-				// $state.go('school.summary-sc');
-				// Redirecing logic should be placed in controller or specific service. Login service should to make a login attempt only.
-			} else {
-				console.log(response.data);
-				window.alert(response.data);
-				// $state.go('login');
-			}
-		}, function(data, status, headers, config){
-			console.log(this);
-			console.log('Admin login data not send');
-			console.log(data);
-		});
+			}, function(data, status, headers, config){
+				console.log(this);
+				console.log('Admin login data not send');
+				console.log(data);
+			});
 	}
 
 });
@@ -131,22 +145,21 @@ schoolApp.config(function($stateProvider, $urlRouterProvider) {
 
 });
 
-schoolApp.controller('loginController', ['$scope', '$http', '$state','SessionManager', function($scope, $http, $state, SessionManager){
-
-	// window.alert(SessionManager.test);
+schoolApp.controller('HeaderController', function ($scope, SessionData) {
 	$scope.test = 'test';
 	$scope.login = true;
 
-	// $scope.sessionData = {
-	// 	username: 'username',
-	// 	image: 'image',
-	// 	role_id: '1'
-	// };
+	$scope.$watch(() => SessionData.get(), (newVal, oldVal) => {
+		$scope.sessionData = newVal;
+	})
+})
+
+schoolApp.controller('loginController', ['$scope', '$http', '$state', 'SessionManager', 'SessionData', function($scope, $http, $state, SessionManager, SessionData) {
 	$scope.login = function() {
-		SessionManager.login($scope.username, $scope.password).then(data => {
-			console.log(data);
+		console.log('loginController login function');
+		SessionManager.login(SessionData.get().username, SessionData.get().password).then(function(data) {
+			// console.log(data);
 			console.log('the data comes from a promise');
-			$scope.sessionData = data;
 		});
 	}
 	// $scope.login = function() {
